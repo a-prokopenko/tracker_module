@@ -1,3 +1,6 @@
+from typing import Dict, Type
+
+
 class InfoMessage:
     """Класс для создания объектов сообщений."""
 
@@ -25,7 +28,7 @@ class Training:
     """Базовый класс тренировки."""
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
-    IN_HOUR: int = 60
+    MIN_IN_HOUR: int = 60
 
     def __init__(self,
                  action: int,
@@ -59,18 +62,19 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    COEFF_1: int = 18
-    COEFF_2: int = 20
+    CALORIES_RUN_1: int = 18
+    CALORIES_RUN_2: int = 20
 
     def get_spent_calories(self) -> float:
-        return (((self.COEFF_1 * self.get_mean_speed() - self.COEFF_2)
-                * self.weight) / self.M_IN_KM * self.duration * self.IN_HOUR)
+        return (((self.CALORIES_RUN_1 * self.get_mean_speed()
+                 - self.CALORIES_RUN_2) * self.weight)
+                / self.M_IN_KM * self.duration * self.MIN_IN_HOUR)
 
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    COEFF_1: float = 0.035
-    COEFF_2: float = 0.029
+    CALORIES_WLK_1: float = 0.035
+    CALORIES_WLK_2: float = 0.029
 
     def __init__(self,
                  action: int,
@@ -82,16 +86,17 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        return ((self.COEFF_1 * self.weight
+        return ((self.CALORIES_WLK_1 * self.weight
                 + (self.get_distance()**2 // self.height)
-                * self.COEFF_2 * self.weight) * self.duration * self.IN_HOUR)
+                * self.CALORIES_WLK_2 * self.weight)
+                * self.duration * self.MIN_IN_HOUR)
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
     LEN_STEP: float = 1.38
-    COEFF_1: float = 1.1
-    COEFF_2: int = 2
+    CALORIES_SWIM_1: float = 1.1
+    CALORIES_SWIM_2: int = 2
 
     def __init__(self, action: int,
                  duration: float,
@@ -107,18 +112,20 @@ class Swimming(Training):
         return total_length_pool / self.M_IN_KM / self.duration
 
     def get_spent_calories(self) -> float:
-        return ((self.get_mean_speed() + self.COEFF_1)
-                * self.COEFF_2 * self.weight)
+        return ((self.get_mean_speed() + self.CALORIES_SWIM_1)
+                * self.CALORIES_SWIM_2 * self.weight)
 
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    type_dict = {
+    type_dict: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
-    return type_dict[workout_type](*data)
+    return type_dict.get(workout_type, 'Тренировка не найдена')(*data)
+    # Думаю должно сработать. Добавил функцию .get для избежания KeyError.
+    # Во второй параметр добавил фарзу, что если нет ключа - нет тренировки
 
 
 def main(training: Training) -> None:
@@ -131,7 +138,7 @@ if __name__ == '__main__':
     packages = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
-        ('WLK', [9000, 1, 75, 180]),
+        ('WLK', [9000, 1, 75, 180])
     ]
 
     for workout_type, data in packages:
