@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass
 from typing import ClassVar, Dict, Type
-
+# :'(
 
 @dataclass
 class InfoMessage:
