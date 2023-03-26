@@ -9,11 +9,11 @@
 ## Установка
 1. Сколинруйте репозиторий командой:
 ```bash
-git clone https://github.com/a-prokopenko/hw_python_oop.git
+git clone https://github.com/a-prokopenko/tracker_module.git
 ```
 2. Перейдите в директорию проекта, создайте и активируйте виртуальное окружение командами:
 ```bash
-cd api_final_yatube/
+cd tracker_module/
 python3 -m venv venv
 ```
 
