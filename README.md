@@ -1,5 +1,39 @@
 # Модуль фитнес-трекера
 Программный модуль фитнес-трекера, который обрабатывает данные для трех видов тренировок: для бега, спортивной ходьбы и плавания.
+## Технологии
+- Python 3.7
+- Pytest 6.2.5
+## Системные требования
+- Python 3.7
+- Windows/Linux/MacOS
+## Установка
+1. Сколинруйте репозиторий командой:
+```bash
+git clone https://github.com/a-prokopenko/hw_python_oop.git
+```
+2. Перейдите в директорию проекта, создайте и активируйте виртуальное окружение командами:
+```bash
+cd api_final_yatube/
+python3 -m venv venv
+```
+
+* Если у вас Linux/macOS
+
+    ```bash
+    source env/bin/activate
+    ```
+
+* Если у вас Windows
+
+    ```bash
+    source env/scripts/activate
+    ```
+3. Установите зависимости из файла ```requirements.txt```:
+```bash
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt --no-cache-dir
+```
+
 ## Базовый класс
 ```python
 class Training
